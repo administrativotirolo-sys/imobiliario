@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block titulo %}Pesquisa - Radar Imobiliario{% endblock %}
+
+{% block conteudo %}
+<section class="painel">
+    <h2>Nova pesquisa</h2>
+    <form id="form-pesquisa" class="form-pesquisa">
+        <div class="campo">
+            <label for="tema">Tema</label>
+            <input type="text" id="tema" name="tema" placeholder="ex.: distrato, usucapiao, locacao" required>
+        </div>
+        <div class="campo">
+            <label for="data_inicio">Data inicial</label>
+            <input type="date" id="data_inicio" name="data_inicio" required>
+        </div>
+        <div class="campo">
+            <label for="data_fim">Data final</label>
+            <input type="date" id="data_fim" name="data_fim" required>
+        </div>
+        <div class="campo">
+            <label for="tipo">Tipo</label>
+            <select id="tipo" name="tipo">
+                <option value="ambos">Noticias e julgados</option>
+                <option value="noticia">Somente noticias</option>
+                <option value="julgado">Somente julgados</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label for="tribunal">Tribunal</label>
+            <select id="tribunal" name="tribunal">
+                <option value="todos">Todos</option>
+                <option value="STJ">STJ</option>
+                <option value="STF">STF</option>
+                <option value="TJSP">TJSP</option>
+                <option value="outros">Outros</option>
+            </select>
+        </div>
+        <button type="submit" id="botao-pesquisar">Pesquisar</button>
+    </form>
+    <div id="mensagem-status" class="mensagem-status"></div>
+</section>
+
+<section class="painel" id="painel-resultados" hidden>
+    <div class="cabecalho-resultados">
+        <h2>Resultados</h2>
+        <div class="ordenacao">
+            <label for="ordenar">Ordenar por</label>
+            <select id="ordenar">
+                <option value="data">Data (mais recente)</option>
+                <option value="relevancia">Relevancia</option>
+            </select>
+        </div>
+    </div>
+    <p id="resumo-custo" class="resumo-custo"></p>
+    <div id="lista-itens" class="lista-itens"></div>
+</section>
+
+<section class="painel">
+    <h2>Historico de pesquisas</h2>
+    <div class="filtros-historico">
+        <input type="text" id="filtro-tema" placeholder="Filtrar por tema">
+        <button id="botao-atualizar-historico">Atualizar</button>
+    </div>
+    <div id="lista-historico" class="lista-historico"></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/pesquisa.js"></script>
+{% endblock %}
