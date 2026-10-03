@@ -10,7 +10,20 @@ O projeto e construido em 3 fases. Este README cobre a **Fase 1: Pesquisa**.
 - Python 3.11 ou superior
 - Uma chave de API da Anthropic (https://console.anthropic.com/)
 
-## Instalacao
+## Jeito mais facil de iniciar (um clique)
+
+1. Instale o Python, se ainda nao tiver: https://www.python.org/downloads/
+2. De dois cliques no arquivo correspondente ao seu sistema:
+   - Windows: `iniciar_windows.bat`
+   - Mac: `iniciar_mac.command` (se o macOS bloquear por seguranca na primeira
+     vez, clique com o botao direito nele e escolha "Abrir")
+3. Na primeira vez, o script vai pedir para voce colar sua chave da API no
+   arquivo `.env` que ele mesmo cria. Salve o arquivo e volte para a janela
+   do script.
+4. O navegador abre automaticamente em http://localhost:8000. Para parar o
+   programa, feche a janela preta que ficou aberta.
+
+## Instalacao manual (alternativa)
 
 ```bash
 # 1. Criar e ativar um ambiente virtual
