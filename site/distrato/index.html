@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Distrato Imobiliário</title>
+<meta name="description" content="Desistiu do imóvel na planta ou a construtora atrasou a entrega? Entenda o que a Lei do Distrato garante e simule quanto você deve receber de volta.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: página de cartório moderna — coluna de leitura + "quadro-resumo" como peça visual; o carimbo violeta é o único gesto ousado. */
+:root {
+  --paper: #F4F5F8;
+  --surface: #FFFFFF;
+  --ink: #18202A;
+  --muted: #586374;
+  --line: #D7DCE4;
+  --stamp: #5B3FA6;
+  --stamp-soft: #ECE7F8;
+  --on-stamp: #FFFFFF;
+  --ok: #1E6A4E;
+  --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-body: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.1875rem;
+  --step-2: 1.5rem;
+  --step-3: 2.125rem;
+  --step-4: clamp(2.25rem, 1.4rem + 3.6vw, 3.75rem);
+  --radius: 6px;
+  --max: 1120px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #10141A; --surface: #171C24; --ink: #E6E9EF; --muted: #9BA5B4;
+    --line: #2A313D; --stamp: #B39EF3; --stamp-soft: #231D37; --on-stamp: #10141A; --ok: #6FCBA3;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #10141A; --surface: #171C24; --ink: #E6E9EF; --muted: #9BA5B4;
+  --line: #2A313D; --stamp: #B39EF3; --stamp-soft: #231D37; --on-stamp: #10141A; --ok: #6FCBA3;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  padding-inline: 16px;
+}
+.wrap { max-width: var(--max); margin-inline: auto; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.12; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-1); font-family: var(--font-body); font-weight: 700; letter-spacing: 0; line-height: 1.3; }
+p { margin: 0; }
+a { color: var(--stamp); }
+:focus-visible { outline: 2px solid var(--stamp); outline-offset: 3px; border-radius: 2px; }
+.eyebrow { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase; color: var(--stamp); }
+.cite { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); }
+.lead { font-size: var(--step-1); color: var(--muted); max-width: 58ch; }
+
+/* Botões */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: 600 var(--step-0)/1 var(--font-body);
+  padding: 14px 20px; border-radius: var(--radius); text-decoration: none; cursor: pointer;
+  border: 1.5px solid var(--stamp); transition: transform .15s ease, background .15s ease;
+}
+.btn-primary { background: var(--stamp); color: var(--on-stamp); }
+.btn-ghost { background: transparent; color: var(--stamp); }
+.btn:hover { transform: translateY(-1px); }
+.btn-ghost:hover { background: var(--stamp-soft); }
+
+/* Cabeçalho */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: var(--paper); border-bottom: 1px solid var(--line);
+  margin-inline: -16px; padding-inline: 16px;
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.brand { display: flex; flex-direction: column; text-decoration: none; color: var(--ink); line-height: 1.2; }
+.brand strong { font-family: var(--font-display); font-size: var(--step-1); font-weight: 600; }
+.brand span { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.nav { display: flex; gap: 22px; align-items: center; }
+.nav a:not(.btn) { color: var(--muted); text-decoration: none; font-weight: 500; font-size: 0.9375rem; }
+.nav a:not(.btn):hover { color: var(--ink); }
+.nav .btn { padding: 10px 14px; font-size: 0.9375rem; }
+@media (max-width: 820px) { .nav a:not(.btn) { display: none; } }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; padding-block: 72px 80px; }
+.hero > * { min-width: 0; }
+.hero-text { display: flex; flex-direction: column; gap: 22px; }
+.hero h1 { font-size: var(--step-4); }
+.hero h1 em { font-style: italic; color: var(--stamp); font-weight: 500; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 48px; padding-block: 48px 56px; } }
+
+/* Quadro-resumo */
+.quadro { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+.quadro-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+.quadro-head b { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.06em; text-transform: uppercase; }
+.quadro dl { margin: 0; }
+.quadro .row { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding-block: 16px; border-bottom: 1px dashed var(--line); }
+.quadro dt { font-weight: 600; }
+.quadro dt small { display: block; font-weight: 400; color: var(--muted); font-size: var(--step--1); }
+.quadro dd { margin: 0; text-align: right; font-family: var(--font-display); font-size: var(--step-3); line-height: 1; color: var(--stamp); font-variant-numeric: tabular-nums; }
+.quadro dd small { display: block; font-family: var(--font-body); font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
+.quadro .cite { padding-top: 14px; }
+.carimbo {
+  position: absolute; top: -26px; right: -14px;
+  border: 3px double var(--stamp); color: var(--stamp); border-radius: 4px;
+  padding: 8px 12px; transform: rotate(-7deg); background: var(--paper);
+  font-family: var(--font-mono); font-weight: 500; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; text-align: center; line-height: 1.35;
+}
+.carimbo b { display: block; font-size: 1.05rem; letter-spacing: 0.06em; }
+@media (max-width: 480px) { .carimbo { right: 4px; top: -30px; } .quadro dd { font-size: var(--step-2); } }
+
+/* Seções */
+section.block { padding-block: 72px; border-top: 1px solid var(--line); }
+.section-head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; max-width: 64ch; }
+
+/* Casos */
+.casos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.caso { background: var(--surface); padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+.caso .tag { align-self: flex-start; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 3px; background: var(--stamp-soft); color: var(--stamp); }
+.caso p { color: var(--muted); }
+.caso .result { color: var(--ink); font-weight: 600; }
+@media (max-width: 720px) { .casos { grid-template-columns: 1fr; } }
+
+/* Simulador */
+.sim { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.sim form { padding: 28px; display: flex; flex-direction: column; gap: 18px; border-right: 1px solid var(--line); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label, .field legend { font-weight: 600; font-size: 0.9375rem; }
+.field .hint { font-size: var(--step--1); color: var(--muted); }
+.money { position: relative; }
+.money span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-family: var(--font-mono); font-size: 0.875rem; pointer-events: none; }
+input[type="number"], select {
+  width: 100%; font: 500 var(--step-0) var(--font-body); color: var(--ink);
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 11px 12px;
+  font-variant-numeric: tabular-nums;
+}
+.money input { padding-left: 40px; }
+input:focus, select:focus { outline: 2px solid var(--stamp); outline-offset: 0; border-color: var(--stamp); }
+fieldset { border: 0; padding: 0; margin: 0; }
+.radios { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.radio { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; font-weight: 400; }
+.radio:has(input:checked) { border-color: var(--stamp); background: var(--stamp-soft); }
+.radio input { accent-color: var(--stamp); margin-top: 4px; }
+.radio b { display: block; font-weight: 600; }
+.radio small { color: var(--muted); font-size: var(--step--1); }
+.check { display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: 0.9375rem; cursor: pointer; }
+.check input { accent-color: var(--stamp); width: 18px; height: 18px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.two > * { min-width: 0; }
+
+.out { padding: 28px; display: flex; flex-direction: column; gap: 20px; background: var(--paper); }
+.out-total { display: flex; flex-direction: column; gap: 4px; }
+.out-total span { font-size: 0.9375rem; color: var(--muted); }
+.out-total output { font-family: var(--font-display); font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3.25rem); line-height: 1; color: var(--ok); font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 12px; border-radius: 3px; overflow: hidden; background: var(--line); }
+.bar i { display: block; height: 100%; transition: width .3s ease; }
+.bar .b-dev { background: var(--ok); }
+.bar .b-ret { background: var(--stamp); }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: var(--step--1); color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.conta { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 0.9375rem; }
+.conta td { padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.conta td:last-child { text-align: right; font-family: var(--font-mono); white-space: nowrap; padding-left: 12px; }
+.conta td small { display: block; color: var(--muted); font-size: 0.75rem; }
+.conta tr.total td { border-bottom: 0; border-top: 2px solid var(--ink); font-weight: 700; }
+.prazo { border-left: 3px solid var(--stamp); padding: 4px 0 4px 14px; font-size: 0.9375rem; }
+.prazo b { display: block; font-size: var(--step--1); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--stamp); font-weight: 500; }
+.aviso { font-size: var(--step--1); color: var(--muted); }
+@media (max-width: 860px) { .sim { grid-template-columns: 1fr; } .sim form { border-right: 0; border-bottom: 1px solid var(--line); } }
+@media (max-width: 420px) { .two { grid-template-columns: 1fr; } .sim form, .out { padding: 20px; } }
+
+/* Documentos */
+.docs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 32px; list-style: none; padding: 0; margin: 0; }
+.docs li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; }
+.docs li > * { min-width: 0; }
+.docs svg { margin-top: 3px; color: var(--stamp); }
+.docs b { display: block; }
+.docs span { color: var(--muted); font-size: 0.9375rem; }
+@media (max-width: 860px) { .docs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .docs { grid-template-columns: 1fr; } }
+
+/* Etapas */
+.etapas { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; counter-reset: etapa; }
+.etapas li { counter-increment: etapa; display: flex; flex-direction: column; gap: 8px; padding-top: 16px; border-top: 2px solid var(--ink); }
+.etapas li::before { content: "Etapa " counter(etapa); font-family: var(--font-mono); font-size: var(--step--1); color: var(--stamp); text-transform: uppercase; letter-spacing: 0.06em; }
+.etapas p { color: var(--muted); font-size: 0.9375rem; }
+@media (max-width: 860px) { .etapas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .etapas { grid-template-columns: 1fr; } }
+
+/* FAQ */
+.faq { max-width: 780px; border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; padding: 20px 36px 20px 0; position: relative; font-weight: 600; font-size: var(--step-1); font-family: var(--font-display); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-family: var(--font-mono); font-size: 1.25rem; color: var(--stamp); }
+.faq details[open] summary::after { content: "−"; }
+.faq .ans { padding: 0 0 22px; color: var(--muted); display: flex; flex-direction: column; gap: 10px; max-width: 68ch; }
+
+/* Contato */
+.contato { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start; }
+.contato > * { min-width: 0; }
+.contato .section-head { margin-bottom: 0; }
+.cartao { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.linha { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.linha:last-of-type { border-bottom: 0; padding-bottom: 0; }
+.linha div { min-width: 0; }
+.linha small { display: block; font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.linha .val { font-weight: 600; user-select: all; overflow-wrap: anywhere; }
+.copy { font: 500 0.8125rem var(--font-body); color: var(--stamp); background: transparent; border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 10px; cursor: pointer; flex: none; }
+.copy:hover { border-color: var(--stamp); }
+@media (max-width: 820px) { .contato { grid-template-columns: 1fr; gap: 32px; } }
+
+footer { border-top: 1px solid var(--line); padding-block: 32px 48px; color: var(--muted); font-size: var(--step--1); }
+footer .wrap { display: flex; flex-direction: column; gap: 10px; }
+footer p { max-width: 90ch; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio">
+      <strong>Seu Nome Advocacia</strong>
+      <span>Direito Imobiliário · OAB/UF 000.000</span>
+    </a>
+    <nav class="nav" aria-label="Seções da página">
+      <a href="#casos">Seu caso</a>
+      <a href="#simulador">Simulador</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a class="btn btn-primary" href="#contato">Fale com um advogado</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="inicio">
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Distrato imobiliário</p>
+      <h1>Desistiu do imóvel na planta? A lei <em>limita</em> quanto a construtora pode ficar com o seu dinheiro.</h1>
+      <p class="lead">A Lei do Distrato define a multa máxima, o que pode ser descontado e o prazo para devolver o valor. Antes de assinar o distrato que a construtora oferece, confira se a conta está certa.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#simulador">Simular minha devolução</a>
+        <a class="btn btn-ghost" href="#contato">Enviar meu contrato para análise</a>
+      </div>
+    </div>
+
+    <aside class="quadro" aria-label="Resumo das retenções máximas previstas em lei">
+      <div class="carimbo" aria-hidden="true">Lei<b>13.786/2018</b>Distrato</div>
+      <div class="quadro-head">
+        <b>Quadro-resumo</b>
+        <span class="cite">Retenção máxima</span>
+      </div>
+      <dl>
+        <div class="row">
+          <dt>Incorporação<small>Apartamento ou casa na planta, regra geral</small></dt>
+          <dd>25%<small>do valor pago</small></dd>
+        </div>
+        <div class="row">
+          <dt>Incorporação com patrimônio de afetação<small>Quando o empreendimento tem esse regime registrado</small></dt>
+          <dd>50%<small>do valor pago</small></dd>
+        </div>
+        <div class="row">
+          <dt>Loteamento<small>Compra de lote ou terreno</small></dt>
+          <dd>10%<small>do valor do contrato</small></dd>
+        </div>
+      </dl>
+      <p class="cite">Além da multa, a lei permite descontar a comissão de corretagem e, se você já recebeu o imóvel, uma taxa pelo tempo de uso. Lei 4.591/64, art. 67-A · Lei 6.766/79, art. 32-A</p>
+    </aside>
+  </section>
+
+  <section class="block" id="casos">
+    <div class="section-head">
+      <p class="eyebrow">Qual é o seu caso?</p>
+      <h2>A regra muda conforme quem deu causa ao fim do contrato</h2>
+      <p class="lead">Desistir por conta própria é diferente de desistir porque a obra atrasou. Veja em qual situação você está.</p>
+    </div>
+    <div class="casos">
+      <article class="caso">
+        <span class="tag">Desistência do comprador</span>
+        <h3>Não consigo mais pagar ou mudei de planos</h3>
+        <p>A construtora pode reter parte do valor pago, mas só até os limites da lei. Percentuais acima disso, taxas sem previsão no contrato e descontos em duplicidade podem ser contestados.</p>
+        <p class="result">Devolução parcial, dentro dos limites do art. 67-A.</p>
+      </article>
+      <article class="caso">
+        <span class="tag">Atraso na obra</span>
+        <h3>A construtora não entregou no prazo</h3>
+        <p>O contrato pode prever até 180 dias de tolerância. Passado esse prazo, você pode desfazer o negócio sem pagar multa, ou manter a compra e receber indenização de 1% ao mês sobre o valor pago.</p>
+        <p class="result">Devolução integral e multa contratual, em até 60 dias.</p>
+      </article>
+      <article class="caso">
+        <span class="tag">Arrependimento</span>
+        <h3>Assinei no estande de vendas há poucos dias</h3>
+        <p>Quem assina em estande ou fora da sede da empresa tem 7 dias para se arrepender. O aviso deve ser feito por carta registrada com aviso de recebimento.</p>
+        <p class="result">Devolução integral, inclusive da corretagem.</p>
+      </article>
+      <article class="caso">
+        <span class="tag">Contrato anterior a 2019</span>
+        <h3>Assinei antes da Lei do Distrato</h3>
+        <p>O STJ entende que a Lei 13.786/2018 não alcança contratos anteriores a ela. Nesses casos vale a jurisprudência, que costuma fixar a retenção entre 10% e 25% do valor pago.</p>
+        <p class="result">Devolução imediata, conforme a Súmula 543 do STJ.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="simulador">
+    <div class="section-head">
+      <p class="eyebrow">Simulador</p>
+      <h2>Quanto, no mínimo, você deve receber de volta</h2>
+      <p class="lead">A conta aplica os descontos máximos que a lei permite quando o comprador desiste. Se a proposta da construtora estiver abaixo desse valor, vale uma análise.</p>
+    </div>
+
+    <div class="sim">
+      <form id="sim-form" novalidate>
+        <fieldset class="field">
+          <legend>Tipo de empreendimento</legend>
+          <div class="radios">
+            <label class="radio"><input type="radio" name="regime" id="r-inc" value="inc" checked><span><b>Incorporação, regra geral</b><small>Multa de até 25% do valor pago</small></span></label>
+            <label class="radio"><input type="radio" name="regime" id="r-afet" value="afet"><span><b>Incorporação com patrimônio de afetação</b><small>Multa de até 50% do valor pago</small></span></label>
+            <label class="radio"><input type="radio" name="regime" id="r-lote" value="lote"><span><b>Loteamento</b><small>Multa de até 10% do valor do contrato</small></span></label>
+          </div>
+        </fieldset>
+
+        <div class="two">
+          <div class="field">
+            <label for="contrato">Valor do contrato</label>
+            <div class="money"><span>R$</span><input type="number" id="contrato" min="0" step="1000" value="420000" inputmode="decimal"></div>
+          </div>
+          <div class="field">
+            <label for="pago">Total que você já pagou</label>
+            <div class="money"><span>R$</span><input type="number" id="pago" min="0" step="1000" value="84000" inputmode="decimal"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="corretagem">Comissão de corretagem paga</label>
+          <div class="money"><span>R$</span><input type="number" id="corretagem" min="0" step="500" value="12000" inputmode="decimal"></div>
+          <p class="hint">Só entra no desconto se estiver prevista no contrato. Se não souber, deixe zero.</p>
+        </div>
+
+        <label class="check"><input type="checkbox" id="chaves"> Já recebi as chaves ou a posse do imóvel</label>
+        <div class="field" id="meses-wrap" hidden>
+          <label for="meses">Meses de uso do imóvel</label>
+          <input type="number" id="meses" min="0" step="1" value="6" inputmode="numeric">
+          <p class="hint">A lei permite cobrar uma taxa por esse período.</p>
+        </div>
+      </form>
+
+      <div class="out" aria-live="polite">
+        <div class="out-total">
+          <span>Devolução mínima estimada</span>
+          <output id="o-total">R$ 0,00</output>
+        </div>
+        <div>
+          <div class="bar" aria-hidden="true"><i class="b-dev" id="bar-dev"></i><i class="b-ret" id="bar-ret"></i></div>
+          <div class="legend" style="margin-top:8px"><span><i style="background:var(--ok)"></i>Volta para você</span><span><i style="background:var(--stamp)"></i>Retenção máxima</span></div>
+        </div>
+        <table class="conta">
+          <tbody>
+            <tr><td>Total pago</td><td id="o-pago"></td></tr>
+            <tr><td>Comissão de corretagem</td><td id="o-corr"></td></tr>
+            <tr><td><span id="l-multa">Multa</span><small id="l-multa-base"></small></td><td id="o-multa"></td></tr>
+            <tr><td>Taxa de uso do imóvel<small id="l-fru-base">Só se você recebeu o imóvel</small></td><td id="o-fru"></td></tr>
+            <tr class="total"><td>Devolução mínima</td><td id="o-total2"></td></tr>
+          </tbody>
+        </table>
+        <p class="prazo"><b>Prazo para devolver</b><span id="o-prazo"></span></p>
+        <p class="aviso">Estimativa com os tetos da lei, sem correção monetária, IPTU ou condomínio em aberto. O contrato pode prever percentuais menores, e o Judiciário pode reduzir cláusulas abusivas. Não se aplica a atraso da construtora nem a contratos anteriores à Lei 13.786/2018.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="documentos">
+    <div class="section-head">
+      <p class="eyebrow">Antes de assinar o distrato</p>
+      <h2>Separe estes documentos</h2>
+      <p class="lead">Com eles é possível conferir a conta da construtora e identificar cobranças indevidas.</p>
+    </div>
+    <ul class="docs">
+      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="currentColor" stroke-width="1.8" fill="none"/></svg><div><b>Contrato e quadro-resumo</b><span>Desde 2018 o contrato precisa trazer um quadro-resumo com as consequências do distrato.</span></div></li>
+      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="currentColor" stroke-width="1.8" fill="none"/></svg><div><b>Comprovantes de pagamento</b><span>Sinal, parcelas, boletos e extrato do financiamento, se houver.</span></div></li>
+      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="currentColor" stroke-width="1.8" fill="none"/></svg><div><b>Recibo da corretagem</b><span>Mostra quanto foi pago, para quem e se estava destacado no contrato.</span></div></li>
+      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="currentColor" stroke-width="1.8" fill="none"/></svg><div><b>Proposta de distrato</b><span>O documento ou e-mail com os valores que a construtora ofereceu.</span></div></li>
+      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="currentColor" stroke-width="1.8" fill="none"/></svg><div><b>Conversas com a empresa</b><span>E-mails, mensagens e protocolos de atendimento, com datas.</span></div></li>
+      <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="currentColor" stroke-width="1.8" fill="none"/></svg><div><b>Prazo de entrega da obra</b><span>A data prometida no contrato e, se houver, o comunicado de atraso.</span></div></li>
+    </ul>
+  </section>
+
+  <section class="block" id="atendimento">
+    <div class="section-head">
+      <p class="eyebrow">Como funciona o atendimento</p>
+      <h2>Do contrato à devolução</h2>
+    </div>
+    <ol class="etapas">
+      <li><h3>Análise do contrato</h3><p>Leitura das cláusulas de distrato, multa, corretagem e prazo de entrega.</p></li>
+      <li><h3>Cálculo do valor devido</h3><p>Conta detalhada com correção e comparação com a proposta da construtora.</p></li>
+      <li><h3>Negociação</h3><p>Notificação e tentativa de acordo extrajudicial, que costuma ser mais rápida.</p></li>
+      <li><h3>Ação judicial, se preciso</h3><p>Quando não há acordo, o pedido de devolução é levado ao Judiciário.</p></li>
+    </ol>
+  </section>
+
+  <section class="block" id="duvidas">
+    <div class="section-head">
+      <p class="eyebrow">Dúvidas frequentes</p>
+      <h2>O que as pessoas mais perguntam sobre distrato</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>A construtora pode ficar com tudo o que eu paguei?</summary>
+        <div class="ans"><p>Não. Os descontos têm teto legal e não podem ultrapassar o que você pagou, com exceção da taxa de uso do imóvel. Cláusula que prevê perda total das parcelas é considerada abusiva pelo Código de Defesa do Consumidor.</p></div>
+      </details>
+      <details>
+        <summary>Em quanto tempo recebo a devolução?</summary>
+        <div class="ans"><p>Na incorporação, em parcela única até 180 dias após o distrato. Se houver patrimônio de afetação, até 30 dias após o habite-se. Se a unidade for revendida antes, o pagamento deve sair em até 30 dias da revenda.</p><p>No loteamento, em até 12 parcelas mensais, com carência que depende do andamento das obras.</p></div>
+      </details>
+      <details>
+        <summary>Como sei se o empreendimento tem patrimônio de afetação?</summary>
+        <div class="ans"><p>O regime fica averbado na matrícula do imóvel no Cartório de Registro de Imóveis e costuma estar indicado no contrato e no quadro-resumo. Ele muda o percentual máximo da multa de 25% para 50%.</p></div>
+      </details>
+      <details>
+        <summary>Se a obra atrasou, ainda pago multa para desistir?</summary>
+        <div class="ans"><p>Não. Quando o atraso passa dos 180 dias de tolerância, a culpa é da construtora. Você pode pedir a devolução integral do que pagou, com a multa prevista no contrato, em até 60 dias.</p></div>
+      </details>
+      <details>
+        <summary>Já assinei o distrato. Ainda dá para contestar?</summary>
+        <div class="ans"><p>Depende do caso. Distratos com cláusulas abusivas ou valores abaixo do mínimo legal podem ser revistos na Justiça. Guarde uma cópia do documento assinado e dos comprovantes.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="block" id="contato">
+    <div class="contato">
+      <div class="section-head">
+        <p class="eyebrow">Contato</p>
+        <h2>Envie seu contrato para análise</h2>
+        <p class="lead">Mande uma mensagem com o tipo de imóvel, a data do contrato e o valor já pago. O retorno informa se há pontos a revisar e quais são os próximos passos.</p>
+        <div class="actions" style="margin-top:8px">
+          <a class="btn btn-primary" href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20quero%20uma%20an%C3%A1lise%20do%20meu%20distrato%20imobili%C3%A1rio." target="_blank" rel="noopener">Conversar pelo WhatsApp</a>
+        </div>
+      </div>
+      <div class="cartao">
+        <div class="linha"><div><small>WhatsApp</small><span class="val" id="c-whats">(00) 00000-0000</span></div><button class="copy" type="button" data-copy="c-whats">Copiar</button></div>
+        <div class="linha"><div><small>E-mail</small><span class="val" id="c-mail">contato@seunomeadvocacia.com.br</span></div><button class="copy" type="button" data-copy="c-mail">Copiar</button></div>
+        <div class="linha"><div><small>Endereço</small><span class="val" id="c-end">Rua Exemplo, 100, sala 1 · Cidade/UF</span></div><button class="copy" type="button" data-copy="c-end">Copiar</button></div>
+        <div class="linha"><div><small>Horário</small><span class="val">Segunda a sexta, 9h às 18h</span></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Seu Nome Advocacia</strong> · Responsável técnico: Seu Nome, OAB/UF 000.000</p>
+    <p>Conteúdo de caráter informativo, conforme o Provimento 205/2021 do Conselho Federal da OAB. Não substitui a análise individual do contrato. O resultado de cada caso depende dos documentos e das circunstâncias concretas.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  var $ = function (id) { return document.getElementById(id); };
+  var num = function (id) { var v = parseFloat($(id).value); return isFinite(v) && v > 0 ? v : 0; };
+
+  var regras = {
+    inc:  { pena: 0.25, base: 'pago',     fru: 0.005,  multa: 'Multa de até 25%', baseTxt: 'Sobre o valor pago',
+            prazo: 'Em parcela única, até 180 dias após o distrato. Se a unidade for revendida antes, até 30 dias após a revenda.' },
+    afet: { pena: 0.50, base: 'pago',     fru: 0.005,  multa: 'Multa de até 50%', baseTxt: 'Sobre o valor pago',
+            prazo: 'Até 30 dias após o habite-se. Se a unidade for revendida antes, até 30 dias após a revenda.' },
+    lote: { pena: 0.10, base: 'contrato', fru: 0.0075, multa: 'Multa de até 10%', baseTxt: 'Sobre o valor do contrato',
+            prazo: 'Em até 12 parcelas mensais. Com obras em andamento, começam até 180 dias após o prazo de conclusão; com obras prontas, até 12 meses após o distrato.' }
+  };
+
+  function calcular() {
+    var regime = document.querySelector('input[name="regime"]:checked').value;
+    var r = regras[regime];
+    var contrato = num('contrato');
+    var pago = num('pago');
+    var chaves = $('chaves').checked;
+    var meses = chaves ? num('meses') : 0;
+    $('meses-wrap').hidden = !chaves;
+
+    var corr = Math.min(num('corretagem'), pago);
+    var multa = Math.min(r.pena * (r.base === 'pago' ? pago : contrato), pago - corr);
+    var fru = r.fru * contrato * meses;
+    var devolucao = Math.max(0, pago - corr - multa - fru);
+    var retido = pago - devolucao;
+
+    $('o-total').textContent = brl.format(devolucao);
+    $('o-total2').textContent = brl.format(devolucao);
+    $('o-pago').textContent = brl.format(pago);
+    $('o-corr').textContent = '− ' + brl.format(corr);
+    $('o-multa').textContent = '− ' + brl.format(multa);
+    $('o-fru').textContent = '− ' + brl.format(fru);
+    $('l-multa').textContent = r.multa;
+    $('l-multa-base').textContent = r.baseTxt;
+    $('l-fru-base').textContent = chaves
+      ? (r.fru * 100).toLocaleString('pt-BR') + '% ao mês sobre o valor do contrato'
+      : 'Só se você recebeu o imóvel';
+    $('o-prazo').textContent = r.prazo;
+
+    var devPct = pago > 0 ? (devolucao / pago) * 100 : 0;
+    $('bar-dev').style.width = devPct + '%';
+    $('bar-ret').style.width = (pago > 0 ? (retido / pago) * 100 : 0) + '%';
+  }
+
+  $('sim-form').addEventListener('input', calcular);
+  $('sim-form').addEventListener('change', calcular);
+  $('sim-form').addEventListener('submit', function (e) { e.preventDefault(); });
+  calcular();
+
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = $(btn.dataset.copy);
+      var done = function () { btn.textContent = 'Copiado'; setTimeout(function () { btn.textContent = 'Copiar'; }, 1600); };
+      var selecionar = function () {
+        var range = document.createRange(); range.selectNodeContents(el);
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        btn.textContent = 'Selecionado';
+        setTimeout(function () { btn.textContent = 'Copiar'; }, 1600);
+      };
+      try {
+        navigator.clipboard.writeText(el.textContent.trim()).then(done, selecionar);
+      } catch (err) { selecionar(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
