@@ -21,4 +21,4 @@ def startup():
 
 @app.get("/")
 def pagina_pesquisa(request: Request):
-    return templates.TemplateResponse("pesquisa.html", {"request": request})
+    return templates.TemplateResponse(request, "pesquisa.html")
